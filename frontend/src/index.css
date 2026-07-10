@@ -1,0 +1,215 @@
+/* Redesigned Design System Foundation - Clinical Healthcare Theme */
+:root {
+  /* HSL-Tailored Color Palette */
+  --primary: #DC2626;      /* Medical Red 600 */
+  --secondary: #EF4444;    /* Red 500 */
+  --accent: #2563EB;       /* Accent Blue 600 */
+  --success: #16A34A;      /* Clinical Green 600 */
+  --warning: #F59E0B;      /* Amber 500 */
+  --danger: #DC2626;
+
+  /* Default Theme: Light Mode */
+  --bg-app: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --border-card: #E5E7EB;
+  --border-focus: #EF4444;
+  --text-primary: #0F172A;     /* Slate 900 */
+  --text-secondary: #475569;   /* Slate 600 */
+  --text-muted: #94A3B8;       /* Slate 400 */
+  
+  /* Shadows (Soft & Minimal) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
+  /* Fonts */
+  --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Border Radii (Material 3 inspired) */
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  
+  --transition-normal: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optional Theme Override: Dark Mode */
+.dark-theme {
+  --bg-app: #111827;           /* Slate 900 */
+  --bg-card: #1F2937;          /* Slate 800 */
+  --border-card: #374151;      /* Slate 700 */
+  --border-focus: #EF4444;     /* Red 500 */
+  --text-primary: #F8FAFC;     /* Slate 50 */
+  --text-secondary: #CBD5E1;   /* Slate 300 */
+  --text-muted: #64748B;       /* Slate 500 */
+  
+  /* Dark Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Base resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  background: none;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-app);
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 38, 38, 0.5);
+}
+
+/* Typography elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+/* Clean clinical cards */
+.medical-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  transition: var(--transition-normal);
+}
+
+.medical-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Premium form outline elements */
+.clinical-input {
+  width: 100%;
+  padding: 11px 14px;
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.clinical-input option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.clinical-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+/* Clean Modern Buttons */
+.btn-clinical-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition-normal);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-clinical-primary:hover {
+  background-color: var(--secondary);
+  transform: translateY(-1px);
+}
+
+.btn-clinical-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition-normal);
+  cursor: pointer;
+}
+
+.btn-clinical-secondary:hover {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+  transform: translateY(-1px);
+}
+
+/* Theme Toggle Button Widget Utility */
+.theme-toggle-widget {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.theme-toggle-widget:hover {
+  background-color: var(--border-card);
+  color: var(--text-primary);
+}
