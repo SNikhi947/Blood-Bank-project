@@ -26,7 +26,13 @@ const HospitalDashboard = () => {
   const [communitySort, setCommunitySort] = useState({ field: 'id', desc: true });
 
   const [profileData, setProfileData] = useState({ hospital_name: '', license_number: '', contact_phone: '', city: '' });
-  const [reqData, setReqData] = useState({ blood_group: 'O-', units_needed: 1, hospital: '', reason: '' });
+  const [reqData, setReqData] = useState({
+  blood_group: 'O-',
+  units_needed: 1,
+  hospital: '',
+  reason: '',
+  request_type: 'Emergency'
+});
 
   useEffect(() => { fetchDashboardData(); }, []);
 
@@ -110,18 +116,34 @@ const HospitalDashboard = () => {
     }
   };
 
-  const handleRequestSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await apiClient.post('/requests', reqData);
-      setShowModal(false);
-      setReqData({ ...reqData, reason: '', units_needed: 1 });
-      showBanner('Emergency request broadcast to network.');
-      fetchDashboardData();
-    } catch (err) {
-      showBanner('Failed to broadcast request.', 'error');
-    }
-  };
+ const handleRequestSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    await apiClient.post('/requests', reqData);
+
+    setShowModal(false);
+
+    setReqData({
+      blood_group: 'O-',
+      units_needed: 1,
+      hospital: hospitalName,
+      reason: '',
+      request_type: 'Emergency'
+    });
+
+    showBanner('Emergency request broadcast to network.');
+
+    fetchDashboardData();
+
+  } catch (err) {
+    console.error(err.response?.data);
+    showBanner(
+      err.response?.data?.detail || 'Failed to broadcast request.',
+      'error'
+    );
+  }
+};
 
   const handleAcceptUserRequest = async (id) => {
     try {
@@ -418,6 +440,38 @@ const HospitalDashboard = () => {
                 <input type="text" required placeholder="e.g. Trauma surgery, mass casualty" value={reqData.reason}
                   onChange={(e) => setReqData({ ...reqData, reason: e.target.value })} />
               </div>
+              <div className="hosp-field">
+  <label>Request Type</label>
+
+  <select
+    value={reqData.request_type}
+    onChange={(e) =>
+      setReqData({
+        ...reqData,
+        request_type: e.target.value
+      })
+    }
+  >
+
+    <option value="Emergency">
+      Emergency
+    </option>
+
+    <option value="Surgery">
+      Surgery
+    </option>
+
+    <option value="Accident">
+      Accident
+    </option>
+
+    <option value="Regular">
+      Regular
+    </option>
+
+  </select>
+
+</div>
               <div className="hosp-modal-actions">
                 <button type="button" className="hosp-cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
                 <button type="submit" className="hosp-submit">Broadcast to Network</button>

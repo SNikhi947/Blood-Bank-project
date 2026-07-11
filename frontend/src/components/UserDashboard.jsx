@@ -29,7 +29,13 @@ const UserDashboard = () => {
   const [banner, setBanner] = useState(null);
 
   const [profileData, setProfileData] = useState({ name: '', blood_group: 'A+', phone: '', city: '' });
-  const [reqData, setReqData] = useState({ blood_group: 'A+', units_needed: 1, hospital: '', reason: '' });
+  const [reqData, setReqData] = useState({
+  blood_group: 'A+',
+  units_needed: 1,
+  hospital: '',
+  reason: '',
+  request_type: 'Emergency'
+});
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -91,17 +97,36 @@ const UserDashboard = () => {
   };
 
   const handleRequestSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await apiClient.post('/requests', reqData);
-      showBanner('Blood request submitted!');
-      setReqData({ ...reqData, hospital: '', reason: '', units_needed: 1 });
-      fetchDashboardData();
-      setActiveTab('myRequests');
-    } catch (err) {
-      showBanner('Failed to submit request.', 'error');
-    }
-  };
+  e.preventDefault();
+
+  try {
+
+    await apiClient.post('/requests', reqData);
+
+    showBanner('Blood request submitted!');
+
+    setReqData({
+      blood_group: 'A+',
+      units_needed: 1,
+      hospital: '',
+      reason: '',
+      request_type: 'Emergency'
+    });
+
+    fetchDashboardData();
+    setActiveTab('myRequests');
+
+  } catch (err) {
+
+    console.error(err.response?.data);
+
+    showBanner(
+      err.response?.data?.detail || 'Failed to submit request.',
+      'error'
+    );
+
+  }
+};
 
   const handleAcceptRequest = async (id) => {
     try {
@@ -338,6 +363,38 @@ const UserDashboard = () => {
                   onChange={(e) => setReqData({ ...reqData, reason: e.target.value })}
                 />
               </div>
+              <div className="dash-field">
+  <label>Request Type</label>
+
+  <select
+    value={reqData.request_type}
+    onChange={(e) =>
+      setReqData({
+        ...reqData,
+        request_type: e.target.value
+      })
+    }
+  >
+
+    <option value="Emergency">
+      Emergency
+    </option>
+
+    <option value="Surgery">
+      Surgery
+    </option>
+
+    <option value="Accident">
+      Accident
+    </option>
+
+    <option value="Regular">
+      Regular
+    </option>
+
+  </select>
+
+</div>
               <button type="submit" className="dash-submit">Broadcast Request</button>
             </form>
           </div>
